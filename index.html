@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 11 · 人生减法与聚焦行动</title>
+    <!-- 字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* 核心配色体系（保持原调性） */
+        :root {
+            --primary-green: #2D9D5C;
+            --light-green: #36B86B;
+            --dark-green: #1E7D46;
+            --hover-green: #239153;
+            --bg-dark-1: #090A0F;
+            --bg-dark-2: #1B2735;
+            --bg-content: rgba(10,10,10,0.95);
+            --bg-card: rgba(26,26,26,0.9);
+            --text-primary: #F5F5F5;
+            --text-secondary: #AAAAAA;
+            --text-highlight: #36B86B;
+            --border-green: rgba(45,157,92,0.6);
+            --shadow-green: rgba(45,157,92,0.4);
+            --shadow-dark: rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* 星空背景（保留原动态效果） */
+        .starry-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at bottom, var(--bg-dark-2) 0%, var(--bg-dark-1) 100%);
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(45, 157, 92, 0.1) 0%, rgba(45, 157, 92, 0) 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            top: 20%;
+            left: 10%;
+            animation: nebulaFloat 60s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+        .nebula:nth-child(2) {
+            width: 600px;
+            height: 500px;
+            top: 40%;
+            right: 10%;
+            background: radial-gradient(circle, rgba(100, 180, 255, 0.08) 0%, rgba(100, 180, 255, 0) 70%);
+            animation-delay: 10s;
+            animation-duration: 70s;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            animation: twinkle linear infinite, float 25s linear infinite alternate;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, white, transparent);
+            border-radius: 50%;
+            animation: shooting 3s linear infinite;
+            opacity: 0;
+            top: 20%;
+            left: -100px;
+        }
+
+        body {
+            color: var(--text-primary);
+            background-color: transparent;
+            line-height: 1.7;
+        }
+
+        /* 容器布局（保持原结构） */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 20px 0;
+        }
+
+        .page-title {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green), var(--primary-green));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 25px var(--shadow-green);
+            animation: gradientShift 3s ease infinite, pulse 2s infinite alternate;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 22px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* 视频核心容器（适配新视频） */
+        .video-wrapper {
+            background: var(--bg-content);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 0 40px var(--shadow-green), 0 10px 30px var(--shadow-dark);
+            border: 3px solid var(--border-green);
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232d9d5c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 固定比例 */
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* 任务说明区域（人生减法与聚焦行动） */
+        .task-description {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 60px;
+            border-left: 5px solid var(--primary-green);
+            box-shadow: 0 0 30px var(--shadow-dark), 0 0 15px var(--shadow-green);
+        }
+
+        .task-description h3 {
+            font-size: 28px;
+            color: var(--light-green);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .task-description .core-intro {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            font-weight: 500;
+            line-height: 1.8;
+            padding: 20px;
+            background: rgba(45, 157, 92, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--light-green);
+        }
+
+        .task-description h4 {
+            font-size: 24px;
+            color: var(--light-green);
+            margin: 40px 0 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-description h4::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: var(--light-green);
+            border-radius: 4px;
+        }
+
+        /* 任务卡片样式优化 */
+        .task-card {
+            background: rgba(45, 157, 92, 0.08);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid var(--light-green);
+        }
+
+        .task-card .task-title {
+            font-size: 20px;
+            color: var(--light-green);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .task-card ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .task-card li {
+            margin: 10px 0;
+            font-size: 17px;
+        }
+
+        .task-card .note {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(45, 157, 92, 0.2);
+        }
+
+        /* 表单样式 */
+        .form-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(10,10,10,0.5);
+            border-radius: 8px;
+        }
+
+        .form-section p {
+            margin: 15px 0;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .form-section .fill-blank {
+            display: inline-block;
+            width: 200px;
+            height: 24px;
+            margin: 0 8px;
+            border-bottom: 2px solid var(--light-green);
+            vertical-align: middle;
+        }
+
+        .form-section .short-input {
+            width: 300px;
+        }
+
+        /* 训练分组样式 */
+        .training-group {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(10,10,10,0.4);
+            border-radius: 6px;
+            border-left: 3px solid var(--light-green);
+        }
+
+        .training-group strong {
+            color: var(--light-green);
+            font-size: 18px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* 复盘问题样式 */
+        .review-questions {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(10,10,10,0.3);
+            border-radius: 6px;
+        }
+
+        .review-questions p {
+            margin: 10px 0;
+            padding-left: 10px;
+            border-left: 2px solid var(--border-green);
+        }
+
+        /* 原则提示样式 */
+        .principle-note {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 165, 0, 0.08);
+            border-radius: 8px;
+            border-left: 4px solid #FFA500;
+        }
+
+        .principle-note strong {
+            color: #FFA500;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* 操作按钮区域（保持原交互） */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: #FFFFFF;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 20px var(--shadow-green), 0 4px 10px var(--shadow-dark);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(30deg);
+            animation: shine 3s infinite linear;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, var(--light-green) 0%, var(--hover-green) 100%);
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 0 40px rgba(45, 157, 92, 0.7), 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+            color: var(--text-secondary);
+            box-shadow: 0 0 15px rgba(0,0,0,0.4), 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid #444;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #2D2D2D 0%, #3F3F3F 100%);
+            color: #FFFFFF;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7), 0 8px 20px rgba(0,0,0,0.3);
+            border-color: #555;
+        }
+
+        /* 底部信息 */
+        .footer-note {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-green);
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .footer-note strong {
+            color: var(--light-green);
+            font-weight: 700;
+        }
+
+        /* 导航链接样式 */
+        .home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .home-link:hover {
+            color: var(--light-green);
+            transform: translateX(-5px);
+        }
+
+        .home-link i {
+            margin-right: 8px;
+        }
+
+        /* 动画定义（全部保留） */
+        @keyframes nebulaFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(20px, -20px) rotate(15deg); }
+        }
+
+        @keyframes shooting {
+            0% { 
+                transform: translateX(0) rotate(10deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateX(2000px) rotate(10deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 25px rgba(45, 157, 92, 0.6); }
+            to { text-shadow: 0 0 45px rgba(45, 157, 92, 0.9); }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translateX(-100%); }
+            100% { transform: rotate(30deg) translateX(100%); }
+        }
+
+        /* 响应式适配（全尺寸兼容） */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+                letter-spacing: 2px;
+            }
+
+            .page-subtitle {
+                font-size: 18px;
+                padding: 0 10px;
+            }
+
+            .video-wrapper {
+                padding: 15px;
+                margin-bottom: 40px;
+            }
+
+            .task-description {
+                padding: 25px;
+                margin-bottom: 40px;
+            }
+
+            .task-description h3 {
+                font-size: 24px;
+            }
+
+            .task-description h4 {
+                font-size: 20px;
+            }
+
+            .task-card {
+                padding: 20px;
+            }
+
+            .form-section .fill-blank {
+                width: 150px;
+            }
+
+            .form-section .short-input {
+                width: 200px;
+            }
+
+            .action-buttons {
+                gap: 20px;
+            }
+
+            .btn {
+                padding: 14px 30px;
+                font-size: 15px;
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .page-title {
+                font-size: 26px;
+            }
+
+            .task-description {
+                padding: 20px 15px;
+            }
+
+            .task-card {
+                padding: 15px;
+            }
+
+            .form-section .fill-blank {
+                width: 120px;
+            }
+
+            .form-section .short-input {
+                width: 180px;
+            }
+
+            .footer-note {
+                font-size: 14px;
+                padding: 15px;
+            }
+        }
+    </style>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 星空背景容器 -->
+    <div class="starry-bg" id="starry-bg">
+        <div class="nebula"></div>
+        <div class="nebula"></div>
+        <div class="shooting-star"></div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 返回主页链接 -->
+        <a href="https://johnchen-spc.github.io/14-days-challenge-Movement-people/" class="home-link" onclick="goHome(event)">
+            <i class="fas fa-arrow-left"></i> 返回14天挑战主页
+        </a>
+
+        <!-- 页面头部 -->
+        <div class="header">
+            <h1 class="page-title">Day 11 · 人生减法与聚焦行动</h1>
+            <p class="page-subtitle">删除无效投入 · 聚焦核心动作 · 用俯卧撑验证执行力</p>
+        </div>
+
+        <!-- 视频核心区域 -->
+        <div class="video-wrapper">
+            <div class="video-container">
+                <iframe 
+                    src="https://player.xinpianchang.com/?aid=13559380&amp;mid=E6WlQgy1eWMwgdJz" 
+                    allowfullscreen="" 
+                    allow="fullscreen" 
+                    frameborder="0" 
+                    style="border: medium;"
+                ></iframe>
+            </div>
+        </div>
+
+        <!-- 任务说明区域 - 人生减法与聚焦行动 -->
+        <div class="task-description">
+            <h3>📋 Day 11 任务说明</h3>
+            
+            <div class="core-intro">
+                🔥 Day 11｜人生减法与聚焦行动<br><br>
+                你不是事情太多，<br>
+                你是不敢删掉没用的东西。<br><br>
+                今天不是让你更努力，<br>
+                是看你有没有胆量——<br>
+                为自己的人生做一次减法。<br><br>
+                今天不是为了状态好。<br>
+                今天是为了确认一件事：<br>
+                你说要做的事，能不能被你自己完成。
+            </div>
+
+            <!-- Task 1 删除一个无效投入 -->
+            <h4>📌 Task 1｜删除一个无效投入</h4>
+            <div class="task-card">
+                <div class="task-title">目标：斩断无回报的投入，为核心目标腾出精力</div>
+                <p style="margin-bottom: 15px;"><strong>回顾前 11 天，写下一件你正在做、但没有真实回报的事。今天起，暂停 7 天。</strong></p>
+                <div class="form-section">
+                    <p>我决定暂停：<span class="fill-blank short-input"></span></p>
+                    <p>原因：<span class="fill-blank short-input"></span></p>
+                </div>
+            </div>
+
+            <!-- Task 2 保留一个值得继续的动作 -->
+            <h4>📌 Task 2｜保留一个值得继续的动作</h4>
+            <div class="task-card">
+                <div class="task-title">目标：聚焦核心，只保留真正有价值的行动</div>
+                <p style="margin-bottom: 15px;"><strong>从前 11 天所有任务中，选唯一一个让你状态更稳 / 更清醒 / 更有方向感的动作。</strong></p>
+                <div class="form-section">
+                    <p>我选择保留的动作是：<span class="fill-blank short-input"></span></p>
+                    <p>接下来 7 天，我会继续它。</p>
+                </div>
+            </div>
+
+            <!-- Task 3 身体训练（俯卧撑挑战） -->
+            <h4>💪 Task 3｜俯卧撑聚焦挑战（必须完成）</h4>
+            <div class="task-card">
+                <div class="task-title">目标：用执行力验证你的决心，不谈组数、不谈时间，只看结果</div>
+                <p style="margin-bottom: 15px; color: var(--text-highlight);">今天只有一个目标——完成你选择的俯卧撑挑战数</p>
+                
+                <div class="training-group">
+                    <strong>三档挑战（选一档）</strong>
+                    <ul>
+                        <li>A 挑战：65 个俯卧撑</li>
+                        <li>B 挑战：85 个俯卧撑</li>
+                        <li>C 挑战：120 个俯卧撑</li>
+                    </ul>
+                </div>
+                
+                <div class="training-group">
+                    <strong>挑战规则</strong>
+                    <ul>
+                        <li>一天内完成即可</li>
+                        <li>可分多次、多组</li>
+                        <li>休多久都行</li>
+                        <li>但不能不做完</li>
+                        <li>完成 = 今天合格 | 没完成 = 不找理由</li>
+                        <li>规则只有一条：不管用什么方式，今天把数字做完</li>
+                    </ul>
+                </div>
+                
+                <div class="form-section" style="margin-top: 20px;">
+                    <p>你选择的挑战是：<span class="fill-blank"></span>（填写 A / B / C）</p>
+                </div>
+            </div>
+
+            <!-- Task 4 一句话聚焦声明 -->
+            <h4>📌 Task 4｜一句话聚焦声明</h4>
+            <div class="task-card">
+                <div class="task-title">目标：清晰锚定核心方向，拒绝分心</div>
+                <p style="margin-bottom: 15px;"><strong>写一句你此刻最清楚的判断：</strong></p>
+                <div class="form-section">
+                    <p>接下来，我不再分心在 <span class="fill-blank"></span>，</p>
+                    <p style="margin-top: 10px;">我只专注把 <span class="fill-blank"></span> 做好。</p>
+                </div>
+            </div>
+
+            <!-- 今日原则 -->
+            <div class="principle-note">
+                <strong>⚠️ 今日原则</strong>
+                <p style="margin-top: 15px; font-weight: 500;">
+                    减法不是放弃，是为了更精准的聚焦。<br>
+                    俯卧撑不是训练，是验证你对自己承诺的执行力。<br><br>
+                    💪 敢删，敢选，敢做完——这才是真正的掌控感。
+                </p>
+            </div>
+
+            <!-- 社群打卡提示 -->
+            <div class="community-note" style="margin-top: 40px; padding: 20px; background: rgba(45, 157, 92, 0.1); border-radius: 8px; border: 1px solid var(--border-green);">
+                <strong>完成后请发到社群：</strong><br><br>
+                1. Task1 暂停的无效投入及原因<br>
+                2. Task2 选择保留的核心动作<br>
+                3. Task3 选择的俯卧撑挑战档位及完成情况<br>
+                4. Task4 你的聚焦声明<br><br>
+                今日核心：删繁就简，聚焦核心，用行动验证承诺
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="action-buttons">
+            <a href="#" class="btn" onclick="completeDay11(event)">完成挑战 ✅</a>
+            <a href="#" class="btn btn-secondary" onclick="goHome(event)">返回主页 ←</a>
+        </div>
+
+        <!-- 底部说明 -->
+        <div class="footer-note">
+            <p>📌 提示：删除无效投入，聚焦核心动作，完成俯卧撑挑战并写下聚焦声明，验证自己的执行力</p>
+            <p>💡 <strong>真正的强大不是做更多事，而是敢删掉没用的，把最重要的那件事做完</strong></p>
+        </div>
+    </div>
+
+    <script>
+        // 动态生成星空背景
+        function createStarryBackground() {
+            const container = document.getElementById('starry-bg');
+            const starCount = 300;
+
+            // 创建星星
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                // 随机位置
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+
+                // 随机大小
+                const size = Math.random() * 4 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                // 随机透明度
+                const opacity = Math.random() * 0.9 + 0.1;
+                star.style.opacity = opacity;
+
+                // 随机动画时长
+                const duration = Math.random() * 15 + 5;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${Math.random() * 15}s`;
+
+                container.appendChild(star);
+            }
+
+            // 定时生成流星
+            setInterval(() => {
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('shooting-star');
+                shootingStar.style.top = `${Math.random() * 80 + 10}%`;
+                shootingStar.style.left = '-100px';
+                shootingStar.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                
+                container.appendChild(shootingStar);
+                
+                // 3秒后移除流星
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, 3000);
+            }, 8000);
+        }
+
+        // 统一的返回主页函数
+        function goHome(event) {
+            if (event) event.preventDefault();
+            window.location.href = 'https://johnchen-spc.github.io/14-days-challenge-Movement-people/';
+        }
+
+        // 完成挑战按钮逻辑（Day11专属）
+        function completeDay11(event) {
+            event.preventDefault();
+            
+            const btn = event.currentTarget;
+            btn.style.transform = 'translateY(-2px) scale(0.98)';
+            
+            // 存储Day11打卡状态
+            localStorage.setItem('day11Completed', 'true');
+            
+            setTimeout(() => {
+                alert('🎉 Day 11 挑战打卡成功！\n你已完成人生减法，聚焦核心目标，用执行力验证了自己的承诺！');
+                goHome();
+            }, 300);
+        }
+
+        // 页面加载初始化
+        window.onload = function() {
+            createStarryBackground();
+            
+            // 视频加载优化
+            const videoIframe = document.querySelector('.video-container iframe');
+            videoIframe.src = videoIframe.src;
+
+            // 绑定返回按钮事件
+            document.querySelectorAll('.home-link, .btn-secondary').forEach(el => {
+                el.addEventListener('click', goHome);
+            });
+        };
+    </script>
+</body>
+</html>
