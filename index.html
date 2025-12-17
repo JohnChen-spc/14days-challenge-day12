@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 11 · 人生减法与聚焦行动</title>
+    <title>Day 12 · 人生减法与聚焦行动</title>
     <!-- 字体引入 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -575,13 +575,13 @@
             <i class="fas fa-arrow-left"></i> 返回14天挑战主页
         </a>
 
-        <!-- 页面头部 -->
+        <!-- 页面头部 - 修正为Day 12 -->
         <div class="header">
-            <h1 class="page-title">Day 11 · 人生减法与聚焦行动</h1>
+            <h1 class="page-title">Day 12 · 人生减法与聚焦行动</h1>
             <p class="page-subtitle">删除无效投入 · 聚焦核心动作 · 用俯卧撑验证执行力</p>
         </div>
 
-        <!-- 视频核心区域 - 替换为新视频地址 -->
+        <!-- 视频核心区域 - 正确视频地址 -->
         <div class="video-wrapper">
             <div class="video-container">
                 <iframe 
@@ -594,12 +594,12 @@
             </div>
         </div>
 
-        <!-- 任务说明区域 - 人生减法与聚焦行动 -->
+        <!-- 任务说明区域 - 修正为Day 12 -->
         <div class="task-description">
-            <h3>📋 Day 11 任务说明</h3>
+            <h3>📋 Day 12 任务说明</h3>
             
             <div class="core-intro">
-                🔥 Day 11｜人生减法与聚焦行动<br><br>
+                🔥 Day 12｜人生减法与聚焦行动<br><br>
                 你不是事情太多，<br>
                 你是不敢删掉没用的东西。<br><br>
                 今天不是让你更努力，<br>
@@ -614,7 +614,7 @@
             <h4>📌 Task 1｜删除一个无效投入</h4>
             <div class="task-card">
                 <div class="task-title">目标：斩断无回报的投入，为核心目标腾出精力</div>
-                <p style="margin-bottom: 15px;"><strong>回顾前 11 天，写下一件你正在做、但没有真实回报的事。今天起，暂停 7 天。</strong></p>
+                <p style="margin-bottom: 15px;"><strong>回顾前 12 天，写下一件你正在做、但没有真实回报的事。今天起，暂停 7 天。</strong></p>
                 <div class="form-section">
                     <p>我决定暂停：<span class="fill-blank short-input"></span></p>
                     <p>原因：<span class="fill-blank short-input"></span></p>
@@ -625,7 +625,7 @@
             <h4>📌 Task 2｜保留一个值得继续的动作</h4>
             <div class="task-card">
                 <div class="task-title">目标：聚焦核心，只保留真正有价值的行动</div>
-                <p style="margin-bottom: 15px;"><strong>从前 11 天所有任务中，选唯一一个让你状态更稳 / 更清醒 / 更有方向感的动作。</strong></p>
+                <p style="margin-bottom: 15px;"><strong>从前 12 天所有任务中，选唯一一个让你状态更稳 / 更清醒 / 更有方向感的动作。</strong></p>
                 <div class="form-section">
                     <p>我选择保留的动作是：<span class="fill-blank short-input"></span></p>
                     <p>接下来 7 天，我会继续它。</p>
@@ -698,7 +698,7 @@
 
         <!-- 操作按钮 -->
         <div class="action-buttons">
-            <a href="#" class="btn" onclick="completeDay11(event)">完成挑战 ✅</a>
+            <a href="#" class="btn" onclick="completeDay12(event)">完成挑战 ✅</a>
             <a href="#" class="btn btn-secondary" onclick="goHome(event)">返回主页 ←</a>
         </div>
 
@@ -766,18 +766,18 @@
             window.location.href = 'https://johnchen-spc.github.io/14-days-challenge-Movement-people/';
         }
 
-        // 完成挑战按钮逻辑（Day11专属）
-        function completeDay11(event) {
+        // 完成挑战按钮逻辑（Day12专属）
+        function completeDay12(event) {
             event.preventDefault();
             
             const btn = event.currentTarget;
             btn.style.transform = 'translateY(-2px) scale(0.98)';
             
-            // 存储Day11打卡状态
-            localStorage.setItem('day11Completed', 'true');
+            // 存储Day12打卡状态
+            localStorage.setItem('day12Completed', 'true');
             
             setTimeout(() => {
-                alert('🎉 Day 11 挑战打卡成功！\n你已完成人生减法，聚焦核心目标，用执行力验证了自己的承诺！');
+                alert('🎉 Day 12 挑战打卡成功！\n你已完成人生减法，聚焦核心目标，用执行力验证了自己的承诺！');
                 goHome();
             }, 300);
         }
